@@ -9,12 +9,12 @@ const PostcodeToCcg = () => {
   const [isLoading, setisLoading] = useState(0)
   const [isError, setisError] = useState(0)
   const [apiData, setapiData] = useState(0)
-  const [postcodes, setPostcodes] = useState([""])
+  const [postcodes, setPostcodes] = useState([])
 
   const handleGoClick = async (e) => {
     e.preventDefault();
+    if (postcodes.length < 1) return false; // do nothing if no postcodes entered. Maybe throw an error + display message to user?
     setisLoading(1);
-
     fetchData('https://api.postcodes.io/postcodes/', postcodes)
     .then(response => {
       if (response.status === 200) {
@@ -48,7 +48,7 @@ const PostcodeToCcg = () => {
     console.log(isError);
     return (
       <main>
-        There was an error
+        <p>There was an error</p>
       </main>
     )
   } else if (isLoading) {
@@ -75,15 +75,14 @@ const PostcodeToCcg = () => {
 
 const PostcodeInput = (props) => {
   return (
-    <div>
-      <textarea placeholder="Enter a comma separated list of postcodes e.g. WA1 1AA, L31 1ED..." onChange={(e) => {props.handleInput(e)}}></textarea>
-      <button type="submit" onClick={(e) => {props.handleGoClick(e)}}>Go!</button>
+    <div className="row postcode-input">
+      <textarea placeholder="Enter a comma separated list of postcodes e.g. WA1 1AA, L31 1ED..." onChange={(e) => {props.handleInput(e)}} className="d-block column"></textarea>
+      <button type="submit" onClick={(e) => {props.handleGoClick(e)}} className="d-block button button-primary column mx-auto">Go!</button>
     </div>
   )
 } 
 
 const CcgOutput = (props) => {
-  console.log("props.data: ", props.data)
   let outputStr = "";
   let inputStr = "";
   // Construct inputStr and outputStr. Optionally add a comma to separate
@@ -103,12 +102,22 @@ const CcgOutput = (props) => {
     }
   })
   return (
-    <div>
-      <h4>Postcode:</h4>
-      <p>{inputStr}</p>
-      <h4>CCG:</h4>
-      <p>{outputStr}</p>
-      <button type="submit" onClick={(e) => props.reset(e)}>Reset</button>
+    <div className="ccg-output">
+      <div className="row">
+        <div className="one-half column">
+          <h6>Postcode:</h6>
+          <p>{inputStr}</p>
+        </div>
+        <div className="one-half column">
+          <h6>CCG:</h6>
+          <p>{outputStr}</p>
+        </div>
+      </div>
+      <div className="row">
+        <div className="twelve columns">
+          <button type="submit" className="button button-primary" onClick={(e) => props.reset(e)}>Reset</button>
+        </div>
+      </div>
     </div>
   )
 }

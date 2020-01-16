@@ -36,3 +36,42 @@
     transform: rotate(360deg);
   }
 }
+
+/** Custom Styles */
+.main-wrapper {
+    min-height: calc(100vh - 89px); /** Force contained elements to take up 100% height (so footer sticks to the bottom) */
+}
+.d-block {
+  display: block;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+header {
+  margin-bottom: 4em;
+}
+.postcode-input textarea {
+  height: 150px;
+}
+.App {
+  padding-top: 1em;
+}
+.tbl-wrapper {
+  overflow-x: auto;
+  margin-bottom: 4em;
+}
+.ccg-output {
+  margin-bottom: 4em;
+  text-align: left;
+}
+.ccg-output column {
+  margin-bottom: 2em;
+}
+.ccg-output p {
+  font-size: 1.5em;
+}
+h6 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}

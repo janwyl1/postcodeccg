@@ -1,4 +1,4 @@
-{
+const dummyData = {
     "status": 200,
     "result": [
         {
@@ -132,3 +132,5 @@
         }
     ]
 }
+
+export default dummyData

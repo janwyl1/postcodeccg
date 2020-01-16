@@ -3,10 +3,12 @@ import React from 'react';
 
 const Tbl = (props) => {
     return (
-      <table>
-        <TblHead />
-        <TblBody data={props.data}/>
-      </table>
+      <div className="tbl-wrapper">
+        <table className="u-full-width">
+          <TblHead />
+          <TblBody data={props.data}/>
+        </table>
+      </div>
     )
   }
   const TblHead = () => {

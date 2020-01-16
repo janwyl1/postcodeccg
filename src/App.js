@@ -80,6 +80,7 @@ const PostcodeToCcg = () => {
     return (
       <main>
         <CcgOutput data={apiData} reset={clearData}/>
+        <Tbl data={apiData} />
       </main>  
     )
   } else {
@@ -108,35 +109,139 @@ const PostcodeInput = (props) => {
 
 
 
+// const Location = (props) => {
+//   if (props.loc.result && props.loc.query) {
+//     return (
+//       <ul>
+//         <li>Postcode: {props.loc.query}</li>
+//         <li>CCG: {props.loc.result.ccg ? props.loc.result.ccg : "N/A"}</li>
+//         <li>CCG Code: {props.loc.result.codes.ccg ? props.loc.result.codes.ccg : "N/A"}</li>
+//         <li>CCG ID: {props.loc.result.codes.ccg_id ? props.loc.result.codes.ccg_id  : "N/A"}</li>
+//         <li>PCT: {props.loc.result.primary_care_trust ? props.loc.result.primary_care_trust : "N/A"}</li>
+//         <li>NHS HA: {props.loc.result.nhs_ha ? props.loc.result.nhs_ha : "N/A"}</li>
+//       </ul>
+//     )
+//   }
+//   return <p>No info found</p>
+// }
 
-const Location = (props) => {
-  if (props.loc.result && props.loc.query) {
-    return (
-      <ul>
-        <li>Postcode: {props.loc.query}</li>
-        <li>CCG: {props.loc.result.ccg ? props.loc.result.ccg : "N/A"}</li>
-        <li>CCG Code: {props.loc.result.codes.ccg ? props.loc.result.codes.ccg : "N/A"}</li>
-        <li>CCG ID: {props.loc.result.codes.ccg_id ? props.loc.result.codes.ccg_id  : "N/A"}</li>
-        <li>PCT: {props.loc.result.primary_care_trust ? props.loc.result.primary_care_trust : "N/A"}</li>
-        <li>NHS HA: {props.loc.result.nhs_ha ? props.loc.result.nhs_ha : "N/A"}</li>
-      </ul>
-    )
-  }
-  return <p>No info found</p>
+const Tbl = (props) => {
+  return (
+    <table>
+      <TblHead />
+      <TblBody data={props.data}/>
+
+    </table>
+  )
 }
+
+const TblHead = (props) => {
+  return (
+    <thead>
+      <tr>
+        <th>Postcode</th>
+        <th>CCG</th>
+        <th>PCT</th>
+        <th>Health Authority</th>
+        <th>CCG Code</th>
+        <th>CCG ID</th>
+      </tr>
+    </thead>
+  )
+}
+
+const TblRow = (props) => {
+  return (
+    <tr>
+      <td>{props.loc.query}</td>
+      <td>{props.loc.result.ccg}</td>
+      <td>{props.loc.result.primary_care_trust}</td>
+      <td>{props.loc.result.nhs_ha}</td>
+      <td>{props.loc.result.codes.ccg}</td>
+      <td>{props.loc.result.codes.ccg_id}</td>
+    </tr>
+  )
+}
+
+const TblBody = (props) => {
+  // const rows = 
+  return (
+    <tbody>
+      {props.data.map((loc, i) => {
+        console.log("loc:", loc)
+        console.log("i:", i)
+        // const blank = {
+        //   query: loc.query || "N/A",
+        //   result: {
+        //     ccg: "N/A",
+        //     primary_care_trust: "N/A",
+        //     nhs_ha: "N/A",
+        //     codes: {
+        //       ccg: "N/A",
+        //       ccg_id: "N/A"
+        //     }
+        //   }
+        // }
+        if (!loc.result) {
+          // loc = blank
+          return false;
+        }
+        return <TblRow loc={loc} key={i}/>
+        
+       
+      })}
+    </tbody>
+  )
+}
+
+// const CcgMoreInfo = (props) => {
+//   console.log("props.data: ", props.data)
+//   return (
+//     <Tbl data={props.data} />
+//     // <div>
+//     //   <ul>
+//     //   { props.data.map((loc, i) => {
+//     //     console.log(".loc:", loc);
+//     //     return (
+//     //     <li key={i}>
+//     //       <Location loc={loc} />
+//     //     </li>)
+//     //   })}
+//     //   </ul>
+//     //   <button type="submit" onClick={(e) => props.reset(e)}>Reset</button>
+//     // </div>
+//   )
+// }
+
 
 const CcgOutput = (props) => {
   console.log("props.data: ", props.data)
+  let outputStr = "";
+  let inputStr = "";
+  // Construct inputStr and outputStr. Optionally add a comma to separate
+  props.data.forEach((item) => {
+    if (inputStr.length > 0) {
+      inputStr += ", "
+    }
+    inputStr += item.query
+
+    if (outputStr.length > 0) {
+      outputStr += ", "
+    } 
+    if (item.result) {
+      outputStr += item.result.codes.ccg_id
+    } else {
+      outputStr += "N/A"
+    }
+  })
+  console.log("input:", inputStr);
+  console.log("output: ", outputStr);
+    
   return (
     <div>
       <ul>
-      { props.data.map((loc, i) => {
-        console.log(".loc:", loc);
-        return (
-        <li key={i}>
-          <Location loc={loc} />
-        </li>)
-      })}
+        <li>Input: {inputStr}</li>
+        <li>Output: {outputStr}</li>
       </ul>
       <button type="submit" onClick={(e) => props.reset(e)}>Reset</button>
     </div>

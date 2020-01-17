@@ -3,7 +3,7 @@ import React from 'react';
 const Header = () => {
   return (
     <header>
-      <h1>Postcodes to CCG</h1>
+      <h1>Postcode to CCG</h1>
     </header>
   )
 }

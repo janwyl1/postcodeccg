@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import Tbl from './Tbl';
 import fetchData from './FetchData'
-
+// import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 const PostcodeToCcg = () => {
 
@@ -10,6 +10,7 @@ const PostcodeToCcg = () => {
   const [isError, setisError] = useState(0)
   const [apiData, setapiData] = useState(0)
   const [postcodes, setPostcodes] = useState([])
+  const [copied, setCopied] = useState(false)
 
   const handleGoClick = async (e) => {
     e.preventDefault();
@@ -43,6 +44,17 @@ const PostcodeToCcg = () => {
     e.preventDefault();
     setapiData(0);
   }
+  const copyToClipboard = (e) => {
+    console.log("Copy to clipboard:", e.target.innerText);
+    e.preventDefault()
+
+    console.log("supported?: ", document.queryCommandSupported('copy'))
+    // Check if copy feature is supported
+    if (document.queryCommandSupported('copy')) {
+      document.execCommand("copy", null, e.target.innerText)
+    }
+    return false;   
+  };
 
   if (isError) {
     console.log(isError);
@@ -60,7 +72,7 @@ const PostcodeToCcg = () => {
   } else if (apiData) {
     return (
       <main>
-        <CcgOutput data={apiData} reset={clearData}/>
+        <CcgOutput data={apiData} reset={clearData} copy={copyToClipboard}/>
         <Tbl data={apiData} />
       </main>  
     )
@@ -106,11 +118,11 @@ const CcgOutput = (props) => {
       <div className="row">
         <div className="one-half column">
           <h6>Postcode:</h6>
-          <p>{inputStr}</p>
+            <p onClick={(e) => {props.copy(e)}}>{inputStr}</p>          
         </div>
         <div className="one-half column">
           <h6>CCG:</h6>
-          <p>{outputStr}</p>
+          <p onClick={(e) => {props.copy(e)}}>{outputStr}</p>
         </div>
       </div>
       <div className="row">

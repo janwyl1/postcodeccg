@@ -1,6 +1,6 @@
 # Postcode to CCG
 
-Converts postcodes into CCG's using the Postcodes.io API.
+Converts postcodes into CCG's using the [Postcodes.io](http://postcodes.io/) API.
 
 <img
   width="500"

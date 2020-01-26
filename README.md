@@ -2,5 +2,12 @@
 
 Converts postcodes into CCG's using the Postcodes.io API.
 
-Built with React.js
+<img
+  width="500"
+  alt=""
+  src="https://i.imgur.com/OrNmtKX.png"
+/>
 
+## [Live demo](https://janwyl1.github.io/postcodeccg/)
+
+Built with React.js

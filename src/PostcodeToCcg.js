@@ -2,7 +2,6 @@
 import React, {useState} from 'react';
 import Tbl from './Tbl';
 import fetchData from './FetchData'
-// import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 const PostcodeToCcg = () => {
 
@@ -10,7 +9,6 @@ const PostcodeToCcg = () => {
   const [isError, setisError] = useState(0)
   const [apiData, setapiData] = useState(0)
   const [postcodes, setPostcodes] = useState([])
-  const [copied, setCopied] = useState(false)
 
   const handleGoClick = async (e) => {
     e.preventDefault();
@@ -49,10 +47,23 @@ const PostcodeToCcg = () => {
     e.preventDefault()
 
     console.log("supported?: ", document.queryCommandSupported('copy'))
-    // Check if copy feature is supported
+    // Check if copy feature is supported. Requires user to highlight text
     if (document.queryCommandSupported('copy')) {
       document.execCommand("copy", null, e.target.innerText)
     }
+    // Check if clipboard API is supported. Allows user to copy text without highlighing it first
+    if (navigator.permissions.query({name: "clipboard-write"}).then(result => {
+      if (result.state == "granted" || result.state == "prompt") {
+        /* write to the clipboard */
+        navigator.clipboard.writeText(e.target.innerText).then(() => {
+          // success
+          console.log("copied")
+        }, () => {
+          // fail
+          console.log("failed to copy")
+        })
+      }
+    }))
     return false;   
   };
 

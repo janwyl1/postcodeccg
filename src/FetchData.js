@@ -6,6 +6,7 @@ const fetchData = async (url, data) => {
     },
     body: JSON.stringify({postcodes: data})
   })
+  
 }
 
 export default fetchData
